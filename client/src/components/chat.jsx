@@ -162,12 +162,13 @@ const Chat = () => {
                     </div>
                 )}
                 {!!selectedUserId && (
-                    <div className="flex h-full flex-grow items-center justify-center" >
+                    <div className="relative h-full" >
                         <div className="overflow-y-scroll absolute top-0 left-0 right-0 bottom-2">
-                            {messageWithoutDups.map(message => (
-                                <div key={message._id} className={(message.sender === id ? "text-right" : "text-left")}>
-                                    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm" + (message._id === id ? "bg-blue-500 text-white" : "bg-blue-500 text-white")}>
-
+                            {messageWithoutDups.map((message) => (
+                                <div key={message._id} 
+                                    className={(message.sender === id ? "text-right" : "text-left")}>
+                                    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm" + (message._id === id ? "bg-blue-500 text-white" : "text-gray-500 bg-white")}>
+                                        {message.text}
                                     </div>
                                 </div>
                             ))}
