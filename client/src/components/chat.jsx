@@ -115,7 +115,7 @@ const Chat = () => {
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload =  () => {
-            sendMessage(null, {})
+            sendMessage(null, {name: e.target.files[0].name, data: reader.result})
         }
     }
      return (
@@ -169,16 +169,36 @@ const Chat = () => {
                     </div>
                 )}
                 {!!selectedUserId && (
-                    <div className="relative h-full" >
+                    <div className="relative h-full">
                         <div className="overflow-y-scroll absolute top-0 left-0 right-0 bottom-2">
-                            {messageWithoutDups.map((message) => (
-                                <div key={message._id} 
-                                    className={(message.sender === id ? "text-right" : "text-left")}>
-                                    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm " + (message.sender === id ? "bg-blue-500 text-white" : "text-gray-500 bg-white")}>
-                                        {message.text}
-                                    </div>
-                                </div>
-                            ))}
+                        {messageWithoutDups.map((message) => (
+  <div key={message._id} className={(message.sender === id ? "text-right" : "text-left")}>
+    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm " + (message.sender === id ? "bg-blue-500 text-white" : "text-gray-500 bg-white")}>
+      {message.text && (
+        <div>{/* Display text message */}
+          {message.text}
+        </div>
+      )}
+      {message.file && (
+        <div>
+          {/* Display file */}
+            <img 
+              src={axios.defaults.baseURL + "/uploads/" + message.file} 
+              alt="File" 
+              className="max-w-64 h-auto max-h-64"  // ปรับขนาดตามความต้องการ
+            />
+          <a href={axios.defaults.baseURL + "/uploads/" + message.file} className="flex item-center gap-1 border-b">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+            </svg>
+            {message.file}
+          </a>
+        </div>
+      )}
+    </div>
+  </div>
+))}
+
                         </div>
                     </div>
                 )}
@@ -191,7 +211,7 @@ const Chat = () => {
                         className="bg-white flex-grow border rounded-sm p-2"
                     />
                     <label className="bg-blue-200 p-2 text-gray-600 cursor-pointer rounded-sm border border-blue-200">
-                        <input type="file" className="hidden" onChange={}/>
+                        <input type="file" className="hidden" onChange={sendFile}/>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                         </svg>

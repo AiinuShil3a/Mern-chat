@@ -172,7 +172,7 @@ wss.on('connection', (connection, req) => {
       filename = Date.now() + "." + ext;
       const path = __dirname + "/uploads/" + filename;
       //const bufferData = new Buffer(file.data.split(",")[1], "base64");
-      fs.writeFile(path, (file.data.split(",")[1], "base64") , () => {
+      fs.writeFile(path, file.data.split(",")[1], "base64" , () => {
         console.log('file saved: ' + path);
       });
     }
@@ -180,7 +180,7 @@ wss.on('connection', (connection, req) => {
       const messageDoc = await Message.create({
         sender: connection.userId,
         recipient,
-        text,
+        text: text.toString(), 
         file: file ? filename : null
       });
       [...wss.clients]
