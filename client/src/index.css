@@ -1,0 +1,23 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+  
+@keyframes colorSwap {
+    0% {
+      background-color: #3490dc; /* เริ่มต้นด้วยสีนี้ */
+      color: #ffffff;
+    }
+    50% {
+      background-color: #f59e0b; /* สีที่ 2 ที่คุณต้องการสลับ */
+      color: #000000;
+    }
+    100% {
+      background-color: #3490dc; /* กลับมาที่สีเริ่มต้น */
+      color: #ffffff;
+    }
+  }
+  
+  .animate-color-swap {
+    animation: colorSwap 3s infinite; /* 3s คือระยะเวลาที่จะให้สลับ */
+  }
+  

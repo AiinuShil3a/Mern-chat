@@ -5,6 +5,7 @@ import { useContext } from "react";
 
 const Routes = () => {
     const {username} = useContext(UserContext)
+    
     if(username){
         return<Chat />;
     }

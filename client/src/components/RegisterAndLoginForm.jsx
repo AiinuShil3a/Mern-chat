@@ -3,7 +3,6 @@ import { UserContext } from "../context/userContext";
 import axios from "axios";
 
 const RegisterAndLoginForm = () => {
-  const URL = import.meta.env.VITE_BASE_URL;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
@@ -23,18 +22,14 @@ const RegisterAndLoginForm = () => {
     }
 
     try {
-      console.log(URL);
-      console.log(isRegister);
-      console.log(`${URL}/${isRegister ? "register" : "login"}`);
-
       const response = await axios.post(
-        `${URL}/${isRegister ? "register" : "login"}`,
+        `/${isRegister ? "register" : "login"}`,
         {
           username,
           password,
         }
       );
-
+        console.log(response);
       if (response.status === 200) {
         // สำหรับการลงทะเบียนหรือเข้าสู่ระบบสำเร็จ
         setLoggedInUsername(response.data.username);

@@ -1,11 +1,12 @@
 import { UserContextProvider } from './context/userContext'
+import axios from 'axios'
 import Routes from './Routes'
-import Navbar from './components/navbar'
 
 function App() {
+  axios.defaults.baseURL = "http://localhost:4000";
+  axios.defaults.withCredentials = true;
   return (
     <UserContextProvider>
-      <Navbar />
       <Routes />
     </UserContextProvider>
   )
