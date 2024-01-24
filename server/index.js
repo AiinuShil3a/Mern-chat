@@ -206,7 +206,7 @@ wss.on('connection', (connection, req) => {
 //chat api
 const getUserDataFromRequest = (req) => {
   return new Promise((resolve , reject) => {
-    const token = req.cookie?.token;
+    const token = req.cookies?.token;
     if(token) {
       jwt.verify(token, secret,{} , (err,userData) => {
         if(err) throw err;

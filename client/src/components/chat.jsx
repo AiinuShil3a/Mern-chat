@@ -3,6 +3,7 @@ import { UserContext } from "../context/userContext";
 import axios from "axios";
 import Logo from "./Logo";
 import Contact from './contact'
+import {uniqBy} from 'lodash'
 
 const Chat = () => {
     const [ws, setWs] = useState(null)
@@ -101,7 +102,16 @@ const Chat = () => {
         }
     }
 
-    return (
+    useEffect(() => {
+        if(selectedUserId){
+            axios.get("/messages/" + selectedUserId).then((res) => {
+                setMessage(res.data)
+            });
+        }
+    } , [selectedUserId])
+
+    const messageWithoutDups = uniqBy(message, "_id")
+     return (
         <div className="flex h-screen">
             <div className="bg-white w-1/3 flex flex-col">
                 <div className="flex-grow">
@@ -144,11 +154,26 @@ const Chat = () => {
             </div>
             <div className="flex flex-col bg-blue-50 w-2/3 p-2">
                 <div className="flex-grow">
+                {!selectedUserId && (
                     <div className="flex h-full flex-grow items-center justify-center" >
                         <div className="text-gray-300">
                             &larr; Select a person from sidebar
                         </div>
                     </div>
+                )}
+                {!!selectedUserId && (
+                    <div className="flex h-full flex-grow items-center justify-center" >
+                        <div className="overflow-y-scroll absolute top-0 left-0 right-0 bottom-2">
+                            {messageWithoutDups.map(message => (
+                                <div key={message._id} className={(message.sender === id ? "text-right" : "text-left")}>
+                                    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm" + (message._id === id ? "bg-blue-500 text-white" : "bg-blue-500 text-white")}>
+
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
                 </div>
                 <form className="flex gap-2" onSubmit={sendMessage}>
                     <input
