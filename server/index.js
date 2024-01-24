@@ -171,8 +171,8 @@ wss.on('connection', (connection, req) => {
       const ext = parts[parts.length - 1];
       filename = Date.now() + "." + ext;
       const path = __dirname + "/uploads/" + filename;
-      const bufferData = new Buffer(file.data.split(",")[1], "base64");
-      fs.writeFile(path, bufferData, () => {
+      //const bufferData = new Buffer(file.data.split(",")[1], "base64");
+      fs.writeFile(path, (file.data.split(",")[1], "base64") , () => {
         console.log('file saved: ' + path);
       });
     }
@@ -226,4 +226,4 @@ app.get("/messages/:userId" , async (req,res) => {
     recipient:{$in : [userId , ourUserId]},
   }).sort({createAt: 1});
   res.json(messages);
-})
+});

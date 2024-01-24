@@ -111,6 +111,13 @@ const Chat = () => {
     } , [selectedUserId])
 
     const messageWithoutDups = uniqBy(message, "_id")
+    const sendFile = (e) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload =  () => {
+            sendMessage(null, {})
+        }
+    }
      return (
         <div className="flex h-screen">
             <div className="bg-white w-1/3 flex flex-col">
@@ -184,7 +191,7 @@ const Chat = () => {
                         className="bg-white flex-grow border rounded-sm p-2"
                     />
                     <label className="bg-blue-200 p-2 text-gray-600 cursor-pointer rounded-sm border border-blue-200">
-                        <input type="file" className="hidden" />
+                        <input type="file" className="hidden" onChange={}/>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                         </svg>
