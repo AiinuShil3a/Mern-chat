@@ -10,7 +10,8 @@ const Chat = () => {
     const [offlinePeople, setOfflinePeople] = useState({});
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [message, setMessage] = useState([]);
-    const { username, id, setUsername } = useContext(UserContext);
+    const [newMessageText, setNewMessageText] = useState({});
+    const { username, id, setUsername , setId } = useContext(UserContext);
 
     
     useEffect(() => {
@@ -65,12 +66,40 @@ const Chat = () => {
     const handleLogout = () => {
         axios.post("/logout")
             .then(() => {
-                setUsername("");
+                setWs(null);
+                setId(null);
+                setUsername(null);
             })
             .catch((error) => {
                 console.error("Logout failed", error);
             });
     };
+
+    const sendMessage = (e,file=null) => {
+        if(e) e.preventDefault();
+        ws.send(
+            JSON.stringify({
+                recipient: selectedUserId,
+                text: newMessageText,
+                file,
+            })
+        );
+        if(file){
+            axios.get("/messages/" + selectedUserId).then((res) => {
+                setMessage(res.data)
+            });
+        } else {
+            setNewMessageText("");
+            setMessage((prev) => [
+                ...prev,{
+                    text: newMessageText,
+                    sender:id,
+                    recipient: selectedUserId,
+                    _id:Date.now(),
+                }
+            ])
+        }
+    }
 
     return (
         <div className="flex h-screen">
@@ -121,9 +150,10 @@ const Chat = () => {
                         </div>
                     </div>
                 </div>
-                <form className="flex gap-2">
+                <form className="flex gap-2" onSubmit={sendMessage}>
                     <input
                         type="text"
+                        onChange={(e) => setNewMessageText(e.target.value)}
                         placeholder="Type your message"
                         className="bg-white flex-grow border rounded-sm p-2"
                     />
