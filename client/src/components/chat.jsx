@@ -167,7 +167,7 @@ const Chat = () => {
                             {messageWithoutDups.map((message) => (
                                 <div key={message._id} 
                                     className={(message.sender === id ? "text-right" : "text-left")}>
-                                    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm" + (message._id === id ? "bg-blue-500 text-white" : "text-gray-500 bg-white")}>
+                                    <div className={"text-left inline-block p-2 my-2 rounded-md text-sm " + (message.sender === id ? "bg-blue-500 text-white" : "text-gray-500 bg-white")}>
                                         {message.text}
                                     </div>
                                 </div>
