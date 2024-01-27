@@ -10,8 +10,6 @@ const Message = require("./models/message");
 const ws = require("ws");
 const fs = require("fs");
 
-
-
 dotenv.config();
 
 //Express Setup
@@ -35,6 +33,7 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error.message);
   });
+  
 app.get("/", (req, res) => {
   res.send("<h1>This is a MERN Stack Chat</h1>")
 })
